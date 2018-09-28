@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 Based on : https://leetcode.com/problems/number-of-islands/description/ 
 
 The Problem :
@@ -34,6 +34,7 @@ Output:
 
 #include "stdafx.h"
 #include <vector>
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
@@ -48,22 +49,27 @@ enum TOPO_FEATURE
 
 struct PrintPair
 {
-  PrintPair(const TOPO_FEATURE& feature, const char* print_symbol): 
-  feature(feature),
+  TOPO_FEATURE feature;
+  const char* print_symbol;
+  
+  PrintPair(const TOPO_FEATURE& feature, const char* print_symbol) : 
+  feature(feature), 
   print_symbol(print_symbol)
   {}
-
-  const TOPO_FEATURE feature;
-  const char* print_symbol;
+  
+  bool operator < (const PrintPair& pair) const
+  {
+    return (feature < pair.feature);
+  }
 };
 
 //NOTE
 //Initialise with the same order as the TOPO_FEATURE enum, 
 //so print function can easily find corresponding printable string.
-vector<PrintPair> printMap = 
-{ 
-  PrintPair(WATER, " "), 
-  PrintPair(LAND, "x") 
+vector<PrintPair> printMap =
+{
+  PrintPair(WATER, "_"),
+  PrintPair(LAND, "+")
 };
 
 const char* NL = "\n";
@@ -78,7 +84,6 @@ void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = false)
   {
     for (int x = padding; x < grid[y].size() - padding; ++x)
     {
-      cout << printMap[grid[y][x]].print_symbol;
       cout << printMap[grid[y][x]].print_symbol;
     }
     cout << NL;
@@ -226,6 +231,9 @@ void main()
   << "Given a 2d grid map of '1's(land) and '0's(water), count the number of islands." << NL 
   << "An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically." << NL 
   << "You may assume all four edges of the grid are all surrounded by water." << NL << NL;
+
+  //Just in case it was initialised in an order different to TOPO_FEATURE enum.
+  sort(printMap.begin(), printMap.end());
 
   PrintGrid(testGrid);
 
