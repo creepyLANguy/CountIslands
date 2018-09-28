@@ -46,13 +46,27 @@ enum TOPO_FEATURE
   LAND  = 1,
 };
 
-//constStrings
-namespace 
+struct PrintPair
 {
-  const char* NL          = "\n";
-  const char* print_Water = "_";
-  const char* print_Land  = "x";
-}
+  PrintPair(const TOPO_FEATURE& feature, const char* print_symbol): 
+  feature(feature),
+  print_symbol(print_symbol)
+  {}
+
+  const TOPO_FEATURE feature;
+  const char* print_symbol;
+};
+
+//NOTE
+//Initialise with the same order as the TOPO_FEATURE enum, 
+//so print function can easily find corresponding printable string.
+vector<PrintPair> printMap = 
+{ 
+  PrintPair(WATER, " "), 
+  PrintPair(LAND, "x") 
+};
+
+const char* NL = "\n";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -64,15 +78,8 @@ void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = false)
   {
     for (int x = padding; x < grid[y].size() - padding; ++x)
     {
-      if (grid[y][x] == WATER)
-      {
-        cout << print_Water;
-      }
-      else
-      {
-        cout << print_Land;
-      }
-
+      cout << printMap[grid[y][x]].print_symbol;
+      cout << printMap[grid[y][x]].print_symbol;
     }
     cout << NL;
   }
