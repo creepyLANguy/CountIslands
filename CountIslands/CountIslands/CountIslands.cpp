@@ -52,10 +52,8 @@ struct PrintPair
   TOPO_FEATURE feature;
   const char* print_symbol;
   
-  PrintPair(const TOPO_FEATURE& feature, const char* print_symbol) : 
-  feature(feature), 
-  print_symbol(print_symbol)
-  {}
+  PrintPair(const TOPO_FEATURE& feature, const char* print_symbol) 
+  : feature(feature), print_symbol(print_symbol){}
   
   bool operator < (const PrintPair& pair) const
   {
@@ -68,7 +66,7 @@ struct PrintPair
 //so print function can easily find corresponding printable string.
 vector<PrintPair> printMap =
 {
-  PrintPair(WATER, "_"),
+  PrintPair(WATER, " "),
   PrintPair(LAND, "+")
 };
 
@@ -76,7 +74,7 @@ const char* NL = "\n";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = false)
+void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = true)
 {
   const int padding = isPadded ? 1 : 0;
 
@@ -108,7 +106,7 @@ void RecursivelyConvertSelfAndNeighbours(
 
   if (showRemovalSteps)
   {
-    PrintGrid(grid, true);
+    PrintGrid(grid);
   }
 
   grid[y][x] = topo_feature;
@@ -145,7 +143,7 @@ int CountIslands(
 
       RecursivelyConvertSelfAndNeighbours(grid, x, y, WATER, showRemovalSteps);
 
-      PrintGrid(grid, true);
+      PrintGrid(grid);
     }
   }
 
@@ -235,7 +233,7 @@ void main()
   //Just in case it was initialised in an order different to TOPO_FEATURE enum.
   sort(printMap.begin(), printMap.end());
 
-  PrintGrid(testGrid);
+  PrintGrid(testGrid, false);
 
   vector<vector<TOPO_FEATURE>> paddedGrid = GetPaddedGrid(testGrid);
 
