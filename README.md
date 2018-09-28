@@ -1,30 +1,30 @@
-CountIslands
+# CountIslands
 
 Based on : https://leetcode.com/problems/number-of-islands/description/ 
 
-The Problem :
+**The Problem**
 Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. 
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. 
 You may assume all four edges of the grid are all surrounded by water. 
 
 > Example A
 
-Input: 
-11110
-11010
-11000
-00000
+*Input:* <br  />
+11110<br />
+11010<br />
+11000<br />
+00000<br />
 
-Output: 
+*Output:* 
 1
 
 > Example B
 
-Input: 
-11000
-11000
-00100
-00011
+*Input:* <br  />
+11000<br />
+11000<br />
+00100<br />
+00011<br />
 
-Output: 
+*Output:*
 3 
