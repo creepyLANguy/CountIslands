@@ -49,9 +49,9 @@ enum TOPO_FEATURE
 //constStrings
 namespace 
 {
-  const char* NL = "\n";
+  const char* NL          = "\n";
   const char* print_Water = "_";
-  const char* print_Land = "x";
+  const char* print_Land  = "x";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,12 @@ void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = false)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void RecursivelyConvertSelfAndNeighbours(vector<vector<TOPO_FEATURE>>& grid, const int x, const int y, const TOPO_FEATURE topo_feature, const bool showRemovalSteps = true)
+void RecursivelyConvertSelfAndNeighbours(
+  vector<vector<TOPO_FEATURE>>& grid, 
+  const int x, const int y, 
+  const TOPO_FEATURE topo_feature, 
+  const bool showRemovalSteps = true
+)
 {
   if (grid[y][x] == topo_feature)
   {
@@ -102,7 +107,11 @@ void RecursivelyConvertSelfAndNeighbours(vector<vector<TOPO_FEATURE>>& grid, con
   RecursivelyConvertSelfAndNeighbours(grid, x, y+1, topo_feature, showRemovalSteps);
 }
 
-int CountIslands(vector<vector<TOPO_FEATURE>>& grid, const bool showIntermediateCount = true, const bool showRemovalSteps = true)
+int CountIslands(
+  vector<vector<TOPO_FEATURE>>& grid, 
+  const bool showIntermediateCount = true, 
+  const bool showRemovalSteps = true
+)
 {
   int count = 0;
 
@@ -110,19 +119,21 @@ int CountIslands(vector<vector<TOPO_FEATURE>>& grid, const bool showIntermediate
   {
     for (int x = 1; x < grid[y].size() - 1; ++x)
     {
-      if (grid[y][x] == LAND)
+      if (grid[y][x] != LAND)
       {
-        ++count;
-
-        if (showIntermediateCount)
-        {
-          cout << NL << count << NL;
-        }
-
-        RecursivelyConvertSelfAndNeighbours(grid, x, y, WATER, showRemovalSteps);
-
-        PrintGrid(grid, true);
+        continue;
       }
+
+      ++count;
+
+      if (showIntermediateCount)
+      {
+        cout << NL << count << NL;
+      }
+
+      RecursivelyConvertSelfAndNeighbours(grid, x, y, WATER, showRemovalSteps);
+
+      PrintGrid(grid, true);
     }
   }
 
