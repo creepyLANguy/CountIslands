@@ -154,12 +154,12 @@ int CountIslands(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-vector<TOPO_FEATURE> GetHorizontalPad(vector<vector<TOPO_FEATURE>>& grid)
+vector<TOPO_FEATURE> GetHorizontalPad(vector<vector<TOPO_FEATURE>>& grid, const TOPO_FEATURE ignorableFeature = WATER)
 {
   vector<TOPO_FEATURE> horizontalPad;
   for (const int position : grid[0])
   {
-    horizontalPad.push_back(WATER);
+    horizontalPad.push_back(ignorableFeature);
   }
   return horizontalPad;
 }
@@ -168,7 +168,7 @@ vector<TOPO_FEATURE> GetHorizontalPad(vector<vector<TOPO_FEATURE>>& grid)
 
 vector<vector<TOPO_FEATURE>> GetPaddedGrid(vector<vector<TOPO_FEATURE>>& grid, const TOPO_FEATURE ignorableFeature = WATER)
 {
-  const vector<TOPO_FEATURE> horizontalPad = GetHorizontalPad(grid);
+  const vector<TOPO_FEATURE> horizontalPad = GetHorizontalPad(grid, ignorableFeature);
 
   vector<vector<TOPO_FEATURE>> paddedGrid;
 
