@@ -62,8 +62,10 @@ struct PrintPair
 };
 
 //NOTE
-//Initialise with the same order as the TOPO_FEATURE enum, 
+//Try and initialise with the same order as the TOPO_FEATURE enum, 
 //so print function can easily find corresponding printable string.
+//Edit: 
+//We do a sort on this vector before using it, but still, don't rely on tha.
 vector<PrintPair> printMap =
 {
   PrintPair(WATER, " "),
@@ -74,13 +76,13 @@ const char* NL = "\n";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = true)
+void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool& isPadded = true)
 {
   const int padding = isPadded ? 1 : 0;
 
-  for (int y = padding; y < grid.size() - padding; ++y)
+  for (unsigned int y = padding; y < grid.size() - padding; ++y)
   {
-    for (int x = padding; x < grid[y].size() - padding; ++x)
+    for (unsigned int x = padding; x < grid[y].size() - padding; ++x)
     {
       cout << printMap[grid[y][x]].print_symbol;
     }
@@ -94,9 +96,10 @@ void PrintGrid(vector<vector<TOPO_FEATURE>>& grid, const bool isPadded = true)
 
 void RecursivelyConvertSelfAndNeighbours(
   vector<vector<TOPO_FEATURE>>& grid, 
-  const int x, const int y, 
-  const TOPO_FEATURE ignorableFeature, 
-  const bool showRemovalSteps = true
+  const int& x, 
+  const int& y, 
+  const TOPO_FEATURE& ignorableFeature, 
+  const bool& showRemovalSteps = true
 )
 {
   if (grid[y][x] == ignorableFeature)
@@ -117,21 +120,24 @@ void RecursivelyConvertSelfAndNeighbours(
   RecursivelyConvertSelfAndNeighbours(grid, x, y+1, ignorableFeature, showRemovalSteps);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 int CountIslands(
   vector<vector<TOPO_FEATURE>>& grid,
-  const bool showIntermediateCount = true, 
-  const bool showRemovalSteps = true,
-  const TOPO_FEATURE countableFeature = LAND,
-  const TOPO_FEATURE ignorableFeature = WATER
+  const bool& showIntermediateCount               = true, 
+  const bool& showRemovalSteps                    = true,
+  const vector<TOPO_FEATURE>& countableFeatures   = { LAND },
+  const TOPO_FEATURE& ignorableFeature            = WATER
 )
 {
   int count = 0;
 
-  for (int y = 1; y < grid.size() - 1; ++y)
+  for (unsigned int y = 1; y < grid.size() - 1; ++y)
   {
-    for (int x = 1; x < grid[y].size() - 1; ++x)
+    for (unsigned int x = 1; x < grid[y].size() - 1; ++x)
     {
-      if (grid[y][x] != countableFeature)
+      //This topo feature is not in the list of countable topo features.
+      if (find(countableFeatures.begin(), countableFeatures.end(), grid[y][x]) == countableFeatures.end())
       {
         continue;
       }
@@ -154,7 +160,7 @@ int CountIslands(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-vector<TOPO_FEATURE> GetHorizontalPad(vector<vector<TOPO_FEATURE>>& grid, const TOPO_FEATURE ignorableFeature = WATER)
+vector<TOPO_FEATURE> GetHorizontalPad(vector<vector<TOPO_FEATURE>>& grid, const TOPO_FEATURE& ignorableFeature = WATER)
 {
   vector<TOPO_FEATURE> horizontalPad;
   for (const int position : grid[0])
@@ -166,7 +172,7 @@ vector<TOPO_FEATURE> GetHorizontalPad(vector<vector<TOPO_FEATURE>>& grid, const 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-vector<vector<TOPO_FEATURE>> GetPaddedGrid(vector<vector<TOPO_FEATURE>>& grid, const TOPO_FEATURE ignorableFeature = WATER)
+vector<vector<TOPO_FEATURE>> GetPaddedGrid(vector<vector<TOPO_FEATURE>>& grid, const TOPO_FEATURE& ignorableFeature = WATER)
 {
   const vector<TOPO_FEATURE> horizontalPad = GetHorizontalPad(grid, ignorableFeature);
 
@@ -216,7 +222,9 @@ namespace
   const vector<TOPO_FEATURE> r8 = { W,L,W,L,W,W,W,L,W,L,W,L,L };
   const vector<TOPO_FEATURE> r9 = { L,L,L,W,W,W,W,W,W,L,L,W,W };
 
-  static vector<vector<TOPO_FEATURE>> testGrid = { r1, r2, r3, r4, r5, r6, r7, r8, r9 };
+  vector<vector<TOPO_FEATURE>> testGrid = { r1, r2, r3, r4, r5, r6, r7, r8, r9 };
+  
+  vector<TOPO_FEATURE> testCountableFeatures = { LAND };
 
   const bool showRemovalSteps       = false;
   const bool showIntermediateCount  = true;
@@ -239,7 +247,7 @@ void main()
 
   vector<vector<TOPO_FEATURE>> paddedGrid = GetPaddedGrid(testGrid, WATER);
 
-  const int islandsCount = CountIslands(paddedGrid, showIntermediateCount, showRemovalSteps, LAND, WATER);
+  const int islandsCount = CountIslands(paddedGrid, showIntermediateCount, showRemovalSteps, testCountableFeatures, WATER);
   
   cout << NL << "Islands Counted : " << islandsCount << NL << endl;
 }
