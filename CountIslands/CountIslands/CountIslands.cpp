@@ -53,7 +53,10 @@ struct PrintPair
   const char* print_symbol;
   
   PrintPair(const TOPO_FEATURE& feature, const char* print_symbol) 
-  : feature(feature), print_symbol(print_symbol){}
+  : 
+  feature(feature), 
+  print_symbol(print_symbol)
+  {}
   
   bool operator < (const PrintPair& pair) const
   {
@@ -99,6 +102,7 @@ void RecursivelyConvertSelfAndNeighbours(
   const int& x, 
   const int& y, 
   const TOPO_FEATURE& ignorableFeature, 
+  const bool& showMaps = true,
   const bool& showRemovalSteps = true
 )
 {
@@ -107,23 +111,24 @@ void RecursivelyConvertSelfAndNeighbours(
     return;
   }
 
-  if (showRemovalSteps)
+  if (showMaps && showRemovalSteps)
   {
     PrintGrid(grid);
   }
 
   grid[y][x] = ignorableFeature;
 
-  RecursivelyConvertSelfAndNeighbours(grid, x-1, y, ignorableFeature, showRemovalSteps);
-  RecursivelyConvertSelfAndNeighbours(grid, x+1, y, ignorableFeature, showRemovalSteps);
-  RecursivelyConvertSelfAndNeighbours(grid, x, y-1, ignorableFeature, showRemovalSteps);
-  RecursivelyConvertSelfAndNeighbours(grid, x, y+1, ignorableFeature, showRemovalSteps);
+  RecursivelyConvertSelfAndNeighbours(grid, x-1, y, ignorableFeature, showMaps, showRemovalSteps);
+  RecursivelyConvertSelfAndNeighbours(grid, x+1, y, ignorableFeature, showMaps, showRemovalSteps);
+  RecursivelyConvertSelfAndNeighbours(grid, x, y-1, ignorableFeature, showMaps, showRemovalSteps);
+  RecursivelyConvertSelfAndNeighbours(grid, x, y+1, ignorableFeature, showMaps, showRemovalSteps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 int CountIslands(
   vector<vector<TOPO_FEATURE>>& grid,
+  const bool& showMaps                            = true,
   const bool& showIntermediateCount               = true, 
   const bool& showRemovalSteps                    = true,
   const vector<TOPO_FEATURE>& countableFeatures   = { LAND },
@@ -149,9 +154,13 @@ int CountIslands(
         cout << NL << count << NL;
       }
 
-      RecursivelyConvertSelfAndNeighbours(grid, x, y, ignorableFeature, showRemovalSteps);
+      RecursivelyConvertSelfAndNeighbours(grid, x, y, ignorableFeature, showMaps, showRemovalSteps);
 
-      PrintGrid(grid);
+      if (showMaps)
+      {
+        PrintGrid(grid);
+      }
+      
     }
   }
 
@@ -226,8 +235,9 @@ namespace
   
   vector<TOPO_FEATURE> testCountableFeatures = { LAND };
 
+  const bool showMaps               = false;
   const bool showRemovalSteps       = false;
-  const bool showIntermediateCount  = true;
+  const bool showIntermediateCount  = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -247,7 +257,7 @@ void main()
 
   vector<vector<TOPO_FEATURE>> paddedGrid = GetPaddedGrid(testGrid, WATER);
 
-  const int islandsCount = CountIslands(paddedGrid, showIntermediateCount, showRemovalSteps, testCountableFeatures, WATER);
+  const int islandsCount = CountIslands(paddedGrid, showMaps, showIntermediateCount, showRemovalSteps, testCountableFeatures, WATER);
   
   cout << NL << "Islands Counted : " << islandsCount << NL << endl;
 }
