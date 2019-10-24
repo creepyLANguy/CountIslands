@@ -226,18 +226,19 @@ namespace
   const TOPO_FEATURE X = LAND;
 
   //Hmm, I can see 14 islands here? 
-  const vector<TOPO_FEATURE> r1 = { X,X,_,_,X,X,_,X,_,X,_,X,_ };
-  const vector<TOPO_FEATURE> r2 = { X,X,X,X,_,X,_,_,X,X,_,X,X };
-  const vector<TOPO_FEATURE> r3 = { _,_,_,_,_,_,_,_,X,X,_,_,X };
-  const vector<TOPO_FEATURE> r4 = { X,X,_,_,_,_,_,_,_,_,X,X,_ };
-  const vector<TOPO_FEATURE> r5 = { X,_,X,_,X,X,X,_,X,_,_,_,X };
-  const vector<TOPO_FEATURE> r6 = { X,_,_,X,_,_,_,_,X,_,X,X,X };
-  const vector<TOPO_FEATURE> r7 = { _,_,X,X,_,_,X,X,_,X,X,X,_ };
-  const vector<TOPO_FEATURE> r8 = { _,X,_,X,_,_,_,X,_,X,_,X,X };
-  const vector<TOPO_FEATURE> r9 = { X,X,X,_,_,_,_,_,_,X,X,_,_ };
+  const vector<vector<TOPO_FEATURE>> testGrid =
+  {
+	  { X,X,_,_,X,X,_,X,_,X,_,X,_ },
+	  { X,X,X,X,_,X,_,_,X,X,_,X,X },
+	  { _,_,_,_,_,_,_,_,X,X,_,_,X },
+	  { X,X,_,_,_,_,_,_,_,_,X,X,_ },
+	  { X,_,X,_,X,X,X,_,X,_,_,_,X },
+	  { X,_,_,X,_,_,_,_,X,_,X,X,X },
+	  { _,_,X,X,_,_,X,X,_,X,X,X,_ },
+	  { _,X,_,X,_,_,_,X,_,X,_,X,X },
+	  { X,X,X,_,_,_,_,_,_,X,X,_,_ }
+  };
 
-  vector<vector<TOPO_FEATURE>> testGrid = { r1, r2, r3, r4, r5, r6, r7, r8, r9 };
-  
   vector<TOPO_FEATURE> testCountableFeatures = { LAND };
 
   const bool showMaps               = true;
