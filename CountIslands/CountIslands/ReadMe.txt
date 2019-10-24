@@ -1,40 +1,30 @@
-========================================================================
-    CONSOLE APPLICATION : CountIslands Project Overview
-========================================================================
+# CountIslands
 
-AppWizard has created this CountIslands application for you.
+Based on : https://leetcode.com/problems/number-of-islands/description/ 
 
-This file contains a summary of what you will find in each of the files that
-make up your CountIslands application.
+**The Problem** <br  />
+Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. 
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. 
+You may assume all four edges of the grid are all surrounded by water. 
 
+> Example A
 
-CountIslands.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
+*Input:* <br  />
+11110<br />
+11010<br />
+11000<br />
+00000<br />
 
-CountIslands.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
+*Output:* 
+1
 
-CountIslands.cpp
-    This is the main application source file.
+> Example B
 
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
+*Input:* <br  />
+11000<br />
+11000<br />
+00100<br />
+00011<br />
 
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named CountIslands.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+*Output:*
+3 
