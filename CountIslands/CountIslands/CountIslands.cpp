@@ -68,7 +68,7 @@ struct PrintPair
 //Try and initialise with the same order as the TOPO_FEATURE enum, 
 //so print function can easily find corresponding printable string.
 //Edit: 
-//We do a sort on this vector before using it, but still, don't rely on that.
+//We do a sort on this vector before using it, but still... 
 vector<PrintPair> printMap =
 {
   PrintPair(WATER, " "),
