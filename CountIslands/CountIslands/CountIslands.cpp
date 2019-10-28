@@ -47,6 +47,14 @@ enum TOPO_FEATURE
   LAND  = 1,
 };
 
+vector<pair<int, int>> neighbourhood_vonneumann =
+{
+  make_pair(-1, +0),
+  make_pair(+1, +0),
+  make_pair(+0, -1),
+  make_pair(+0, +1),
+};
+
 struct PrintPair
 {
   TOPO_FEATURE feature;
@@ -118,10 +126,10 @@ void RecursivelyConvertSelfAndNeighbours(
 
   grid[y][x] = ignorableFeature;
 
-  RecursivelyConvertSelfAndNeighbours(grid, x-1, y, ignorableFeature, showMaps, showRemovalSteps);
-  RecursivelyConvertSelfAndNeighbours(grid, x+1, y, ignorableFeature, showMaps, showRemovalSteps);
-  RecursivelyConvertSelfAndNeighbours(grid, x, y-1, ignorableFeature, showMaps, showRemovalSteps);
-  RecursivelyConvertSelfAndNeighbours(grid, x, y+1, ignorableFeature, showMaps, showRemovalSteps);
+  for (auto n : neighbourhood_vonneumann)
+  {
+	  RecursivelyConvertSelfAndNeighbours(grid, x + n.first, y + n.second, ignorableFeature, showMaps, showRemovalSteps);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
